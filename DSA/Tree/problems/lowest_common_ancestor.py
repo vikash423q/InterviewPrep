@@ -1,54 +1,34 @@
-from DSA.Tree.node_based.tree import Tree, Node
+#   https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 
-# assuming val1 and val2 always exists
-def lca(root: Node, val1, val2):
-    if root.value in [val1, val2]:
-        return root
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+        if root.val == p.val or root.val == q.val:
+            return root
 
-    left = find_node(root.left, val1)
-    right = find_node(root.right, val2)
+        left = self.find(root.left, p) or self.find(root.left, q)
+        right = self.find(root.right, q) or self.find(root.right, p)
 
-    if left and right:
-        return root
+        if left != right and left and right:
+            return root
 
-    if left:
-        return lca(root.left, val1, val2)
-    elif right:
-        return lca(root.right, val1, val2)
-    else:
-        return None
+        return self.lowestCommonAncestor(root.left, p, q) or self.lowestCommonAncestor(root.right, p, q)
 
-
-def find_node(root: Node, val):
-    if root is None:
-        return None
-    if root.value == val:
-        return root
-
-    left = find_node(root.left, val)
-    right = find_node(root.right, val)
-
-    if left:
-        return left
-    if right:
-        return right
-
-
-if __name__ == '__main__':
-    """
-                     5
-                1          6
-                     4          8
-                2                   10
-                               9          12
-                                    11          14
-    """
-    t = Tree()
-    t.create([5, 6, 1, 4, 2, 8, 10, 12, 14, 11, 9])
-
-    t.inorder()
-    t.preorder()
-
-    r = lca(t.root, 11, 14)
-    print(r.value)
+    def find(self, root: 'TreeNode', n: 'TreeNode'):
+        if not root:
+            return None
+        elif root.val == n.val:
+            return root
+        elif root.val > n.val:
+            return self.find(root.left, n)
+        else:
+            return self.find(root.right, n)
