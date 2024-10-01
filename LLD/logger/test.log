@@ -1,0 +1,4 @@
+[INFO] 2024-09-27 18:17:11.956123 this is a info log message
+[WARNING] 2024-09-27 18:17:12.607108 this is a warning log message
+[CRITICAL] 2024-09-27 18:17:13.231072 this is a critical log message
+[ERROR] 2024-09-27 18:17:13.844616 this is a error log message
